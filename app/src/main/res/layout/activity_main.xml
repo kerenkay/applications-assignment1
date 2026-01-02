@@ -8,10 +8,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_app_background"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fdf4c6"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,36 +24,56 @@
             android:layout_height="0dp"
             android:layout_weight="100"
             android:orientation="vertical"
-            android:layout_margin="16dp">
+            android:layout_margin="8dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_weight="0"
-                >
-                <View
+                android:layout_weight="0">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/lblScore"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"/>
-                <ImageView
-                    android:id="@+id/heart1"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/img_heart"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:text="score: 00"
+                    android:textColor="#000000"
+                    android:textSize="28sp"
+
                     />
-                <ImageView
-                    android:id="@+id/heart2"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/img_heart"
-                    />
-                <ImageView
-                    android:id="@+id/heart3"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:src="@drawable/img_heart"
-                    />
+
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginEnd="8dp"-->
+<!--                    android:layout_weight="1">-->
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.5" />
+
+                    <ImageView
+                        android:id="@+id/heart1"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/img_heart" />
+
+                    <ImageView
+                        android:id="@+id/heart2"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/img_heart" />
+
+                    <ImageView
+                        android:id="@+id/heart3"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:src="@drawable/img_heart" />
+<!--                </LinearLayout>-->
             </LinearLayout>
 
             <LinearLayout
@@ -58,93 +83,44 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imgMonster00"
+                    android:id="@+id/imgObject00"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster01"
+                    android:id="@+id/imgObject01"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster02"
+                    android:id="@+id/imgObject02"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster10"
+                    android:id="@+id/imgObject03"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster11"
+                    android:id="@+id/imgObject04"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
-
-                <ImageView
-                    android:id="@+id/imgMonster12"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/imgMonster20"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
-
-                <ImageView
-                    android:id="@+id/imgMonster21"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
-
-                <ImageView
-                    android:id="@+id/imgMonster22"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
             </LinearLayout>
 
@@ -155,28 +131,141 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imgMonster30"
+                    android:id="@+id/imgObject10"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster31"
+                    android:id="@+id/imgObject11"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster32"
+                    android:id="@+id/imgObject12"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject13"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject14"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgObject20"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject21"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject22"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject23"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject24"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgObject30"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject31"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject32"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject33"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject34"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
             </LinearLayout>
             <LinearLayout
@@ -186,28 +275,44 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:id="@+id/imgMonster40"
+                    android:id="@+id/imgObject40"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster41"
+                    android:id="@+id/imgObject41"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
                 <ImageView
-                    android:id="@+id/imgMonster42"
+                    android:id="@+id/imgObject42"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:padding="20dp"
-                    android:src="@drawable/img_monster"/>
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject43"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
+
+                <ImageView
+                    android:id="@+id/imgObject44"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="0dp"
+                    android:src="@android:color/transparent"/>
 
             </LinearLayout>
 
@@ -216,28 +321,103 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
+                android:padding="10dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imgChild00"
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/img_child"/>
+                    android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/imgChild01"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/img_child"/>
+                    <ImageView
+                        android:id="@+id/imgChild00"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"/>
 
-                <ImageView
-                    android:id="@+id/imgChild02"
+                    <ImageView
+                        android:id="@+id/imgCrash00"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"/>
+
+                </FrameLayout>
+
+                <FrameLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/img_child"/>
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgChild01"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent" />
+
+                    <ImageView
+                        android:id="@+id/imgCrash01"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgChild02"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/img_child" />
+
+                    <ImageView
+                        android:id="@+id/imgCrash02"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgChild03"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent" />
+
+                    <ImageView
+                        android:id="@+id/imgCrash03"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"/>
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:id="@+id/imgChild04"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent" />
+
+                    <ImageView
+                        android:id="@+id/imgCrash04"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@android:color/transparent"/>
+
+                </FrameLayout>
 
             </LinearLayout>
 
@@ -252,9 +432,9 @@
                 android:id="@+id/btnLeft"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#ff6844"
+                android:backgroundTint="#1879ff"
                 app:icon="@drawable/img_left_arrow"
-                app:iconSize="40dp" />
+                app:iconSize="30dp" />
 
             <View
                 android:layout_width="0dp"
@@ -265,9 +445,9 @@
                 android:id="@+id/btnRight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="#ff6844"
+                android:backgroundTint="#1879ff"
                 app:icon="@drawable/img_right_arrow"
-                app:iconSize="40dp"
+                app:iconSize="30dp"
                 app:layout_constraintStart_toEndOf="parent" />
         </LinearLayout>
 

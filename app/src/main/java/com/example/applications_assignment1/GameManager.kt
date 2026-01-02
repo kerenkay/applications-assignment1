@@ -1,14 +1,21 @@
 package com.example.applications_assignment1
 
+enum class CellType {
+    EMPTY,
+    MONSTER,
+    MONSTER_MIKE,
+    GIFT
+}
 class GameManager(
     private val NUM_OF_ROWS: Int,
     private val NUM_OF_ROADS: Int
 ) {
     var lives: Int = 3
     var childPosition: Int = 1
-    var addMonster: Boolean = true
-    val activeMonsters = mutableListOf<Monster>()
+    var addObject: Boolean = true
+    val activeObjects = mutableListOf<FallingObject>()
     var isCrash: Boolean = false
+    var isBonus: Boolean = false
 
     fun goLeft() {
         if (childPosition > 0) {
@@ -22,49 +29,71 @@ class GameManager(
         }
     }
 
-    fun moveTheMonsters() {
-        // move down the monsters
+    fun moveTheObjects() {
+        // move down the objects
         isCrash = false
-        val it = activeMonsters.iterator()
+        isBonus = false
+        val it = activeObjects.iterator()
         while (it.hasNext()) {
-            val monster = it.next()
-            monster.row += 1
-            if (monster.row >= NUM_OF_ROWS) {
+            val obj = it.next()
+            obj.row += 1
+            if (obj.row >= NUM_OF_ROWS) {
                 it.remove()
-                if ( monster.col == childPosition) {
-                    isCrash = true
-                    lives --
+                if ( obj.col == childPosition) {
+                    if(obj.type != CellType.GIFT) {
+                        isCrash = true
+                        lives--
+                    }else{
+                        isBonus = true
+                    }
                 }
 
             }
         }
 
-        // add new monster
-        if (addMonster) {
+        // add new object
+        if (addObject) {
             val newCol = (0 until NUM_OF_ROADS).random()
-            activeMonsters.add(Monster(row = 0, col = newCol))
-            addMonster = false
-        } else {
-            addMonster = true
-        }
-    }
-
-    fun checkCrash(): Boolean {
-        var crashed = false
-        for (monster in activeMonsters) {
-            if (monster.row == NUM_OF_ROWS - 1 && monster.col == childPosition) {
-                crashed = true
-                lives--
+            val randNum = (0..2).random()
+            var newType: CellType = CellType.EMPTY
+            when(randNum){
+                0 -> newType = CellType.MONSTER
+                1 -> newType = CellType.MONSTER_MIKE
+                2 -> newType = CellType.GIFT
             }
+            activeObjects.add(FallingObject(row = 0, col = newCol, type = newType))
+            addObject = false
+        } else {
+            addObject = true
         }
-        return crashed
     }
 
-    fun clearMonsters() {
-        activeMonsters.clear()
+    fun getCellType(row: Int, col: Int): CellType {
+        val obj = activeObjects.find { it.row == row && it.col == col }
+        return obj?.type ?: CellType.EMPTY
+    }
+
+//    fun checkCrash(): Boolean {
+//        var crashed = false
+//        for (obj in activeObjects) {
+//            if (obj.row == NUM_OF_ROWS - 1 && obj.col == childPosition) {
+//                crashed = true
+//                lives--
+//            }
+//        }
+//        return crashed
+//    }
+
+    fun clearObjects() {
+        activeObjects.clear()
     }
 
     fun getIsCrash(): Boolean{
         return  isCrash
+    }
+
+
+    fun getIsBonus(): Boolean{
+        return isBonus
     }
 }

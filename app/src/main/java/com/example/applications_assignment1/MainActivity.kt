@@ -2,6 +2,7 @@ package com.example.applications_assignment1
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -20,47 +21,71 @@ import com.example.applications_assignment1.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var MonstersMap: Array<Array<ImageView>>
+    private lateinit var ObjectsMap: Array<Array<ImageView>>
     private lateinit var childMap: Array<ImageView>
+    private lateinit var crashMap: Array<ImageView>
+    private lateinit var crashSound: MediaPlayer
+    private lateinit var bonusSound: MediaPlayer
     private lateinit var gameManager: GameManager
+    private lateinit var gameMode: GameMode
+    private val PREFS_NAME = "game_settings"
+    private val KEY_GAME_MODE = "GAME_MODE"
 
-    val DELAY: Long = 600
-    val NUM_OF_ROADS = 3
+    var DELAY: Long = 700
+    val NUM_OF_ROADS = 5
     val NUM_OF_ROWS = 5
 
+    var score: Int = 0
     val handler: Handler = Handler(Looper.getMainLooper())
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
 
-        MonstersMap = arrayOf(
-            arrayOf(binding.imgMonster00, binding.imgMonster01, binding.imgMonster02),
-            arrayOf(binding.imgMonster10, binding.imgMonster11, binding.imgMonster12),
-            arrayOf(binding.imgMonster20, binding.imgMonster21, binding.imgMonster22),
-            arrayOf(binding.imgMonster30, binding.imgMonster31, binding.imgMonster32),
-            arrayOf(binding.imgMonster40, binding.imgMonster41, binding.imgMonster42),
+        gameMode = loadGameMode()
+        setupGameMode()
+
+        crashSound = MediaPlayer.create(this, R.raw.crash_sound)
+        bonusSound = MediaPlayer.create(this, R.raw.bonus_points)
+
+        ObjectsMap = arrayOf(
+            arrayOf(binding.imgObject00, binding.imgObject01, binding.imgObject02, binding.imgObject03, binding.imgObject04),
+            arrayOf(binding.imgObject10, binding.imgObject11, binding.imgObject12, binding.imgObject13, binding.imgObject14),
+            arrayOf(binding.imgObject20, binding.imgObject21, binding.imgObject22, binding.imgObject23, binding.imgObject24),
+            arrayOf(binding.imgObject30, binding.imgObject31, binding.imgObject32, binding.imgObject33, binding.imgObject34),
+            arrayOf(binding.imgObject40, binding.imgObject41, binding.imgObject42, binding.imgObject43, binding.imgObject44),
         )
 
         childMap = arrayOf(
             binding.imgChild00,
             binding.imgChild01,
-            binding.imgChild02
+            binding.imgChild02,
+            binding.imgChild03,
+            binding.imgChild04
+        )
+
+        crashMap = arrayOf(
+            binding.imgCrash00,
+            binding.imgCrash01,
+            binding.imgCrash02,
+            binding.imgCrash03,
+            binding.imgCrash04
         )
 
         gameManager = GameManager(NUM_OF_ROWS, NUM_OF_ROADS)
 
         updateChildPosition()
-        clearMonsters()
+//        clearObjects()
 
         binding.btnLeft.setOnClickListener {
             goLeft()
@@ -71,6 +96,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         handler.post(gameLoop)
+        android.util.Log.d("TAL_DEBUG", "MainActivity onCreate END")
     }
 
     fun goLeft() {
@@ -84,35 +110,51 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateChildPosition() {
+        clearCrash()
         for (child in childMap) {
-            child.visibility = View.INVISIBLE
+            child.setImageResource(android.R.color.transparent)
         }
-        childMap[gameManager.childPosition].visibility = View.VISIBLE
+        childMap[gameManager.childPosition].setImageResource(R.drawable.img_child)
     }
 
-    fun clearMonsters() {
-        gameManager.clearMonsters()
-        for (row in 0 until NUM_OF_ROWS) {
-            for (col in 0 until NUM_OF_ROADS) {
-                MonstersMap[row][col].visibility = View.INVISIBLE
-            }
-        }
-    }
+//    fun clearObjects() {
+//        gameManager.clearObjects()
+//        for (row in 0 until NUM_OF_ROWS) {
+//            for (col in 0 until NUM_OF_ROADS) {
+//                ObjectsMap[row][col].setImageDrawable(null)
+//            }
+//        }
+//    }
 
-    fun moveTheMonsters() {
-        gameManager.moveTheMonsters()
-        updateMonsters()
+    fun moveTheObjects() {
+        gameManager.moveTheObjects()
+        updateObjects()
         checkCrash()
     }
 
-    fun updateMonsters() {
+    fun updateObjects() {
+//        for (row in 0 until NUM_OF_ROWS) {
+//            for (col in 0 until NUM_OF_ROADS) {
+//                ObjectsMap[row][col].setImageDrawable(null)
+//            }
+//        }
+//        for (obj in gameManager.activeObjects) {
+//            ObjectsMap[obj.row][obj.col].setImageResource(R.drawable.img_monster)
+//        }
         for (row in 0 until NUM_OF_ROWS) {
             for (col in 0 until NUM_OF_ROADS) {
-                MonstersMap[row][col].visibility = View.INVISIBLE
+
+                val cellType = gameManager.getCellType(row, col)
+
+                ObjectsMap[row][col].setImageResource(
+                    when (cellType) {
+                        CellType.MONSTER -> R.drawable.img_monster
+                        CellType.MONSTER_MIKE    -> R.drawable.img_monster_mike
+                        CellType.GIFT -> R.drawable.img_gift
+                        CellType.EMPTY   -> 0
+                    }
+                )
             }
-        }
-        for (monster in gameManager.activeMonsters) {
-            MonstersMap[monster.row][monster.col].visibility = View.VISIBLE
         }
     }
 
@@ -120,6 +162,9 @@ class MainActivity : AppCompatActivity() {
 //        val crashed = gameManager.getIsCrash()
         if (gameManager.getIsCrash()) {
             crash()
+        }
+        if(gameManager.getIsBonus()){
+            getBonus()
         }
     }
 
@@ -129,6 +174,9 @@ class MainActivity : AppCompatActivity() {
         binding.heart1.visibility = if (lives >= 1) View.VISIBLE else View.INVISIBLE
         binding.heart2.visibility = if (lives >= 2) View.VISIBLE else View.INVISIBLE
         binding.heart3.visibility = if (lives >= 3) View.VISIBLE else View.INVISIBLE
+
+        crashMap[gameManager.childPosition].setImageResource(R.drawable.img_blast)
+        crashSound.start()
 
         vibrate()
         if (lives == 0) {
@@ -141,9 +189,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun getBonus(){
+        crashMap[gameManager.childPosition].setImageResource(R.drawable.img_10)
+        Toast.makeText(this, "bonus 10", Toast.LENGTH_SHORT).show()
+        score += 10
+        bonusSound.start()
+    }
+
     fun gameOver() {
         Toast.makeText(this, "Game Over", Toast.LENGTH_SHORT).show()
-        clearMonsters()
+//        clearObjects()
         handler.removeCallbacks(gameLoop)
         unableBtn()
         showGameOverDialog()
@@ -154,6 +209,11 @@ class MainActivity : AppCompatActivity() {
         binding.btnRight.isEnabled = false
     }
 
+    fun clearCrash(){
+        for(img in crashMap){
+            img.setImageResource(android.R.color.transparent)
+        }
+    }
     private fun vibrate() {
         val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
 
@@ -170,9 +230,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun updateScore(){
+        score++;
+        binding.lblScore.text = "score: $score"
+    }
+
     val gameLoop = object : Runnable {
         override fun run() {
-            moveTheMonsters()
+            moveTheObjects()
+            updateScore()
 //            checkCrash()
             if (gameManager.lives > 0) {
                 handler.postDelayed(this, DELAY)
@@ -200,7 +266,63 @@ class MainActivity : AppCompatActivity() {
 
     private fun startNewGame() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra(KEY_GAME_MODE, gameMode.name) // אותו מצב כמו המשחק הקודם
         finish()
         startActivity(intent)
+    }
+
+    private fun setupGameMode() {
+        when (gameMode) {
+
+            GameMode.BUTTONS_SLOW -> {
+                enableButtons()
+                disableSensors()
+                DELAY = 700
+            }
+
+            GameMode.BUTTONS_FAST -> {
+                enableButtons()
+                disableSensors()
+                DELAY = 400
+            }
+
+            GameMode.SENSORS -> {
+                disableButtons()
+                enableSensors()
+            }
+        }
+    }
+
+    private fun loadGameMode(): GameMode {
+        intent.getStringExtra(KEY_GAME_MODE)?.let {
+            return GameMode.valueOf(it)
+        }
+
+        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+        val saved = prefs.getString(KEY_GAME_MODE, GameMode.BUTTONS_SLOW.name)!!
+        return GameMode.valueOf(saved)
+    }
+    private fun enableButtons() {
+        binding.btnLeft.visibility = View.VISIBLE
+        binding.btnRight.visibility = View.VISIBLE
+    }
+
+    private fun disableButtons() {
+        binding.btnLeft.visibility = View.GONE
+        binding.btnRight.visibility = View.GONE
+    }
+
+    private fun enableSensors() {
+//        sensorManager.registerListener(...)
+    }
+
+    private fun disableSensors() {
+//        sensorManager.unregisterListener(...)
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        crashSound.release()
+        bonusSound.release()
+        handler.removeCallbacks(gameLoop)
     }
 }

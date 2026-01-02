@@ -1,33 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".HomeActivity">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/img_background"/>
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnStartGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        android:text="NEW GAME"
-        android:textSize="24sp"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        app:cornerRadius="24dp"
-        android:paddingHorizontal="32dp"
-        android:paddingVertical="10dp"
-        android:backgroundTint="#3C9F24" />
-
-<!--        <com.google.android.material.button.MaterialButton-->
+    <!--        <com.google.android.material.button.MaterialButton-->
 <!--            android:id="@+id/btnStartGame"-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"-->
@@ -39,72 +19,177 @@
 
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardGameMode"
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:id="@+id/cardGameMode"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="8dp"-->
+<!--        android:layout_centerInParent="true"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        app:cardCornerRadius="16dp"-->
+
+<!--        app:cardElevation="6dp"-->
+<!--        app:cardBackgroundColor="#9993f0ff">-->
+<!--        android:layout_marginHorizontal="24dp">-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:orientation="vertical"-->
+<!--        android:padding="14dp"-->
+<!--        tools:layout_editor_absoluteX="25dp"-->
+<!--        tools:layout_editor_absoluteY="420dp">-->
+
+
+
+    <!--            <RadioGroup-->
+        <!--                android:id="@+id/rgGameMode"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:orientation="vertical"-->
+        <!--                android:layout_marginTop="12dp">-->
+
+        <!--                <RadioButton-->
+        <!--                    android:id="@+id/rbModeNormal"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:text="BUTTONS - SLOW"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:buttonTint="#3F51B5"-->
+        <!--                    android:textSize="16sp"-->
+        <!--                    android:checked="true" />-->
+
+        <!--                <RadioButton-->
+        <!--                    android:id="@+id/rbModeFast"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:buttonTint="#3F51B5"-->
+        <!--                    android:textSize="16sp"-->
+        <!--                    android:text="BUTTONS - FAST" />-->
+
+        <!--                <RadioButton-->
+        <!--                    android:id="@+id/rbModeSensors"-->
+        <!--                    android:layout_width="wrap_content"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:textStyle="bold"-->
+        <!--                    android:buttonTint="#3F51B5"-->
+        <!--                    android:textSize="16sp"-->
+        <!--                    android:text="SENSOR MODE" />-->
+        <!--            </RadioGroup>-->
+
+<!--    </LinearLayout>-->
+
+    <ImageView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_background"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="-33dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnStartGame"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="8dp"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="6dp"
-        app:cardBackgroundColor="#99FFFFFF">
-        android:layout_marginHorizontal="24dp">
+        android:backgroundTint="#150da1"
+        android:paddingHorizontal="32dp"
+        android:paddingVertical="10dp"
+        android:text="NEW GAME"
+        android:textAllCaps="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:cornerRadius="12dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.72"
+        />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/modeContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBtnSlow"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="14dp">
+            android:backgroundTint="#150da1"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="10dp"
+            android:text="button - slow"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.72" />
 
-            <TextView
-                android:id="@+id/txtGameModeTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CHOOSE GAME MODE"
-                android:textColor="#1D2DA1"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnBtnFast"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#150da1"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="10dp"
+            android:text="button - fast"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/btnBtnSlow"
+            app:layout_constraintStart_toStartOf="@+id/btnBtnSlow"
+            app:layout_constraintTop_toBottomOf="@+id/btnBtnSlow" />
 
-            <RadioGroup
-                android:id="@+id/rgGameMode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="12dp">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSensor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="#150da1"
+            android:paddingHorizontal="32dp"
+            android:paddingVertical="10dp"
+            android:text="sensor mode"
+            android:textAllCaps="true"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="@+id/btnBtnFast"
+            app:layout_constraintStart_toStartOf="@+id/btnBtnFast"
+            app:layout_constraintTop_toBottomOf="@+id/btnBtnFast" />
 
-                <RadioButton
-                    android:id="@+id/rbModeNormal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="BUTTONS - SLOW"
-                    android:textStyle="bold"
-                    android:buttonTint="#3F51B5"
-                    android:textSize="16sp"
-                    android:checked="true" />
+        <TextView
+            android:id="@+id/txtGameModeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="324dp"
+            android:text="CHOOSE GAME MODE"
+            android:textColor="#1D2DA1"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_bias="0.42"
+             />
+    <!--    </com.google.android.material.card.MaterialCardView>-->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RadioButton
-                    android:id="@+id/rbModeFast"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:buttonTint="#3F51B5"
-                    android:textSize="16sp"
-                    android:text="BUTTONS - FAST" />
-
-                <RadioButton
-                    android:id="@+id/rbModeSensors"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:buttonTint="#3F51B5"
-                    android:textSize="16sp"
-                    android:text="SENSOR MODE" />
-            </RadioGroup>
-
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-
-
-
-</RelativeLayout>

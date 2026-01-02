@@ -52,7 +52,9 @@ class MainActivity : AppCompatActivity() {
 //            insets
 //        }
 
-        gameMode = loadGameMode()
+        gameMode = GameMode.valueOf(
+            intent.getStringExtra("GAME_MODE") ?: GameMode.BUTTONS_SLOW.name
+        )
         setupGameMode()
 
         crashSound = MediaPlayer.create(this, R.raw.crash_sound)
@@ -266,7 +268,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun startNewGame() {
         val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(KEY_GAME_MODE, gameMode.name) // אותו מצב כמו המשחק הקודם
+        intent.putExtra(KEY_GAME_MODE, gameMode.name)
         finish()
         startActivity(intent)
     }
@@ -291,16 +293,6 @@ class MainActivity : AppCompatActivity() {
                 enableSensors()
             }
         }
-    }
-
-    private fun loadGameMode(): GameMode {
-        intent.getStringExtra(KEY_GAME_MODE)?.let {
-            return GameMode.valueOf(it)
-        }
-
-        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-        val saved = prefs.getString(KEY_GAME_MODE, GameMode.BUTTONS_SLOW.name)!!
-        return GameMode.valueOf(saved)
     }
     private fun enableButtons() {
         binding.btnLeft.visibility = View.VISIBLE

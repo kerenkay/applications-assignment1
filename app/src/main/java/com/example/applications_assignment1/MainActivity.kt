@@ -18,6 +18,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.applications_assignment1.databinding.ActivityMainBinding
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -30,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var gameMode: GameMode
     private val PREFS_NAME = "game_settings"
     private val KEY_GAME_MODE = "GAME_MODE"
-
+    private val KEY_SCORE = "KEY_SCORE"
     var DELAY: Long = 700
     val NUM_OF_ROADS = 5
     val NUM_OF_ROWS = 5
@@ -51,6 +52,10 @@ class MainActivity : AppCompatActivity() {
 //            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
 //            insets
 //        }
+
+        ImageLoader.getInstance()
+            .loadImage(R.drawable.img_app_background, binding.imgBackground)
+
 
         gameMode = GameMode.valueOf(
             intent.getStringExtra("GAME_MODE") ?: GameMode.BUTTONS_SLOW.name
@@ -203,7 +208,13 @@ class MainActivity : AppCompatActivity() {
 //        clearObjects()
         handler.removeCallbacks(gameLoop)
         unableBtn()
-        showGameOverDialog()
+//        showGameOverDialog()
+
+        val intent = Intent(this, ScoreActivity::class.java)
+        intent.putExtra(KEY_SCORE, score)
+        startActivity(intent)
+        finish()
+
     }
 
     fun unableBtn() {
@@ -248,30 +259,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showGameOverDialog() {
-        val builder = AlertDialog.Builder(this)
-
-        builder.setTitle("Game Over!")
-        builder.setMessage("Do you want to play again or exit?")
-
-        builder.setPositiveButton("New Game") { dialog, which ->
-            startNewGame()
-        }
-
-        builder.setNegativeButton("Exit") { dialog, which ->
-            finish()
-        }
-
-        builder.setCancelable(false)
-        builder.create().show()
-    }
-
-    private fun startNewGame() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra(KEY_GAME_MODE, gameMode.name)
-        finish()
-        startActivity(intent)
-    }
+//    private fun showGameOverDialog() {
+//        val builder = AlertDialog.Builder(this)
+//
+//        builder.setTitle("Game Over!")
+//        builder.setMessage("Do you want to play again or exit?")
+//
+//        builder.setPositiveButton("New Game") { dialog, which ->
+//            startNewGame()
+//        }
+//
+//        builder.setNegativeButton("Exit") { dialog, which ->
+//            finish()
+//        }
+//
+//        builder.setCancelable(false)
+//        builder.create().show()
+//    }
+//
+//    private fun startNewGame() {
+//        val intent = Intent(this, MainActivity::class.java)
+//        intent.putExtra(KEY_GAME_MODE, gameMode.name)
+//        finish()
+//        startActivity(intent)
+//    }
 
     private fun setupGameMode() {
         when (gameMode) {

@@ -83,6 +83,9 @@ class MainActivity : AppCompatActivity() {
             gameModeProvider = { gameMode },
             onMove = { dir ->
                 if (dir < 0) goLeft() else goRight()
+            },
+            onSpeed = { norm ->
+                setSpeedFromTilt(norm)
             }
         )
         setupGameMode()
@@ -355,31 +358,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun showGameOverDialog() {
-//        val builder = AlertDialog.Builder(this)
-//
-//        builder.setTitle("Game Over!")
-//        builder.setMessage("Do you want to play again or exit?")
-//
-//        builder.setPositiveButton("New Game") { dialog, which ->
-//            startNewGame()
-//        }
-//
-//        builder.setNegativeButton("Exit") { dialog, which ->
-//            finish()
-//        }
-//
-//        builder.setCancelable(false)
-//        builder.create().show()
-//    }
-//
-//    private fun startNewGame() {
-//        val intent = Intent(this, MainActivity::class.java)
-//        intent.putExtra(KEY_GAME_MODE, gameMode.name)
-//        finish()
-//        startActivity(intent)
-//    }
-
     private fun setupGameMode() {
         when (gameMode) {
 
@@ -428,6 +406,19 @@ class MainActivity : AppCompatActivity() {
         super.onPause()
         tiltController.stop()
     }
+
+    private fun setSpeedFromTilt(norm: Float) {
+
+        val minDelay = 250L
+        val maxDelay = 800L
+        val aggressive = norm * norm
+        val target = (maxDelay - aggressive * (maxDelay - minDelay)).toLong()
+
+        DELAY = (DELAY * 0.7 + target * 0.3).toLong()
+        android.util.Log.d("SPEED", "norm=$norm DELAY=$DELAY")
+
+    }
+
 
 
     private fun hasLocationPermission(): Boolean {

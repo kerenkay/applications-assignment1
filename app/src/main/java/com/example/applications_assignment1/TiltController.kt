@@ -4,8 +4,9 @@ import android.content.Context
 
 class TiltController(
     private val context: Context,
-    private val gameModeProvider: () -> GameMode,      // כדי לבדוק אם באמת מצב חיישנים פעיל
-    private val onMove: (dir: Int) -> Unit             // -1 שמאלה, +1 ימינה
+    private val gameModeProvider: () -> GameMode,
+    private val onMove: (dir: Int) -> Unit,
+    private val onSpeed: (norm: Float) -> Unit
 ) : AccSensorCallBack {
 
     private val sensorApi = AccSensorApi(context, this)
@@ -27,5 +28,10 @@ class TiltController(
             x > threshold -> { onMove(-1); lastMoveTime = now }
             x < -threshold -> { onMove(+1); lastMoveTime = now }
         }
+
+        val forward = z.coerceIn(0f, 6f)
+        val norm = forward / 6f
+        onSpeed(norm)
+        android.util.Log.d("SENSOR", "x=$x y=$y z=$z")
     }
 }

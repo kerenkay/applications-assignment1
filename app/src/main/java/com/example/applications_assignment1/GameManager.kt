@@ -62,7 +62,7 @@ class GameManager(
                 2 -> newType = CellType.GIFT
             }
             activeObjects.add(FallingObject(row = 0, col = newCol, type = newType))
-            addObject = false
+            addObject = true
         } else {
             addObject = true
         }

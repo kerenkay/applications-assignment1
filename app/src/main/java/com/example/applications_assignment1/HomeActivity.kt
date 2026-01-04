@@ -16,12 +16,14 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         ImageLoader.init(this)
 
-        ImageLoader.getInstance()
-            .loadImage(R.drawable.img_background, binding.imgBackground)
+//        ImageLoader.getInstance()
+//            .loadImage(R.drawable.img_background, binding.imgBackground)
+        binding.imgBackground.setImageResource(R.drawable.img_background)
 
         val btnNewGame = binding.btnStartGame
         val modeContainer = binding.modeContainer
@@ -40,6 +42,10 @@ class HomeActivity : AppCompatActivity() {
         btnModeSlow.setOnClickListener { startGame(GameMode.BUTTONS_SLOW) }
         btnModeFast.setOnClickListener { startGame(GameMode.BUTTONS_FAST) }
         btnModeSensors.setOnClickListener { startGame(GameMode.SENSORS) }
+
+        binding.imgTrophy.setOnClickListener {
+            startActivity(Intent(this, TopTenActivity::class.java))
+        }
     }
 
     private fun startGame(mode: GameMode) {

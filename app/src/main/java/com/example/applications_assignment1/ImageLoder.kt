@@ -52,10 +52,11 @@ class ImageLoader private constructor(context: Context) {
     fun loadImage(
         source: Int,
         imageView: ImageView,
-        placeHolder: Int = R.drawable.unavailable_photo
+        placeHolder: Int = R.drawable.img_unavailable_photo
     ) {
         Glide.with(imageView)
             .load(source)
+            .override(512, 512)
             .centerCrop()
             .placeholder(placeHolder)
             .into(imageView)
@@ -64,13 +65,14 @@ class ImageLoader private constructor(context: Context) {
     fun loadImage(
         source: String,
         imageView: ImageView,
-        placeHolder: Int = R.drawable.unavailable_photo
+        placeHolder: Int = R.drawable.img_unavailable_photo
     ) {
         contextRef.get()?.let{
                 context ->
             Glide
                 .with(context)
                 .load(source)
+                .override(256, 256)
                 .centerCrop()
                 .placeholder(placeHolder)
                 .into(imageView)

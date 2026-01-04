@@ -2,6 +2,9 @@ package com.example.applications_assignment1
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.location.Location
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
@@ -14,9 +17,14 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.applications_assignment1.databinding.ActivityMainBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,13 +37,21 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bonusSound: MediaPlayer
     private lateinit var gameManager: GameManager
     private lateinit var gameMode: GameMode
+    private lateinit var locationClient: FusedLocationProviderClient
+    private lateinit var monsterDrawable : Drawable
+    private lateinit var monsterMikeDrawable : Drawable
+    private lateinit var childDrawable : Drawable
+    private lateinit var giftDrawable : Drawable
+    private lateinit var blastDrawable : Drawable
+    private lateinit var tiltController: TiltController
+
     private val PREFS_NAME = "game_settings"
     private val KEY_GAME_MODE = "GAME_MODE"
     private val KEY_SCORE = "KEY_SCORE"
     var DELAY: Long = 700
     val NUM_OF_ROADS = 5
     val NUM_OF_ROWS = 5
-
+    private val LOCATION_PERMISSION_REQ = 1001
     var score: Int = 0
     val handler: Handler = Handler(Looper.getMainLooper())
 
@@ -53,14 +69,46 @@ class MainActivity : AppCompatActivity() {
 //            insets
 //        }
 
-        ImageLoader.getInstance()
-            .loadImage(R.drawable.img_app_background, binding.imgBackground)
+//        ImageLoader.getInstance()
+//            .loadImage(R.drawable.img_app_background, binding.imgBackground)
+        binding.imgBackground.setImageResource(R.drawable.img_app_background)
 
 
         gameMode = GameMode.valueOf(
             intent.getStringExtra("GAME_MODE") ?: GameMode.BUTTONS_SLOW.name
         )
+
+        tiltController = TiltController(
+            context = this,
+            gameModeProvider = { gameMode },
+            onMove = { dir ->
+                if (dir < 0) goLeft() else goRight()
+            }
+        )
         setupGameMode()
+
+
+//        monsterDrawable = AppCompatResources.getDrawable(this, R.drawable.img_monster)!!
+//        monsterMikeDrawable = AppCompatResources.getDrawable(this, R.drawable.img_monster_mike)!!
+//        childDrawable = AppCompatResources.getDrawable(this, R.drawable.img_child)!!
+//        giftDrawable = AppCompatResources.getDrawable(this, R.drawable.img_gift)!!
+//        blastDrawable = AppCompatResources.getDrawable(this, R.drawable.img_blast)!!
+//        monsterDrawable = ContextCompat.getDrawable(this, R.drawable.img_monster)!!
+//        monsterMikeDrawable = ContextCompat.getDrawable(this, R.drawable.img_monster_mike)!!
+//        childDrawable = ContextCompat.getDrawable(this, R.drawable.img_child)!!
+//        giftDrawable = ContextCompat.getDrawable(this, R.drawable.img_gift)!!
+//        blastDrawable = ContextCompat.getDrawable(this, R.drawable.img_blast)!!
+
+        fun loadD(resId: Int): Drawable {
+            android.util.Log.d("DRAW_LOAD", "loading: ${resources.getResourceName(resId)}")
+            return AppCompatResources.getDrawable(this, resId)!!
+        }
+
+        monsterDrawable = loadD(R.drawable.img_monster)
+        monsterMikeDrawable = loadD(R.drawable.img_monster_mike)
+        childDrawable = loadD(R.drawable.img_child)
+        giftDrawable = loadD(R.drawable.img_gift)
+        blastDrawable = loadD(R.drawable.img_blast)
 
         crashSound = MediaPlayer.create(this, R.raw.crash_sound)
         bonusSound = MediaPlayer.create(this, R.raw.bonus_points)
@@ -104,6 +152,13 @@ class MainActivity : AppCompatActivity() {
 
         handler.post(gameLoop)
         android.util.Log.d("TAL_DEBUG", "MainActivity onCreate END")
+
+        if (!hasLocationPermission()) {
+            requestLocationPermission()
+        }
+        locationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
     }
 
     fun goLeft() {
@@ -119,9 +174,10 @@ class MainActivity : AppCompatActivity() {
     fun updateChildPosition() {
         clearCrash()
         for (child in childMap) {
-            child.setImageResource(android.R.color.transparent)
+//            child.setImageResource(android.R.color.transparent)
+            if (child.drawable != null) child.setImageDrawable(null)
         }
-        childMap[gameManager.childPosition].setImageResource(R.drawable.img_child)
+        childMap[gameManager.childPosition].setImageDrawable(childDrawable)
     }
 
 //    fun clearObjects() {
@@ -140,27 +196,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updateObjects() {
-//        for (row in 0 until NUM_OF_ROWS) {
-//            for (col in 0 until NUM_OF_ROADS) {
-//                ObjectsMap[row][col].setImageDrawable(null)
-//            }
-//        }
-//        for (obj in gameManager.activeObjects) {
-//            ObjectsMap[obj.row][obj.col].setImageResource(R.drawable.img_monster)
-//        }
         for (row in 0 until NUM_OF_ROWS) {
             for (col in 0 until NUM_OF_ROADS) {
 
+//                val cellType = gameManager.getCellType(row, col)
+//
+//                ObjectsMap[row][col].setImageResource(
+//                    when (cellType) {
+//                        CellType.MONSTER -> R.drawable.img_monster
+//                        CellType.MONSTER_MIKE    -> R.drawable.img_monster_mike
+//                        CellType.GIFT -> R.drawable.img_gift
+//                        CellType.EMPTY   -> 0
+//                    }
+//                )
+
                 val cellType = gameManager.getCellType(row, col)
 
-                ObjectsMap[row][col].setImageResource(
-                    when (cellType) {
-                        CellType.MONSTER -> R.drawable.img_monster
-                        CellType.MONSTER_MIKE    -> R.drawable.img_monster_mike
-                        CellType.GIFT -> R.drawable.img_gift
-                        CellType.EMPTY   -> 0
-                    }
-                )
+                val newDrawable: Drawable? = when (cellType) {
+                    CellType.MONSTER -> monsterDrawable
+                    CellType.MONSTER_MIKE -> monsterMikeDrawable
+                    CellType.GIFT -> giftDrawable
+                    CellType.EMPTY -> null
+                }
+
+                val iv = ObjectsMap[row][col]
+
+                if (iv.drawable !== newDrawable) {
+                    iv.setImageDrawable(newDrawable)
+                }
             }
         }
     }
@@ -182,7 +245,7 @@ class MainActivity : AppCompatActivity() {
         binding.heart2.visibility = if (lives >= 2) View.VISIBLE else View.INVISIBLE
         binding.heart3.visibility = if (lives >= 3) View.VISIBLE else View.INVISIBLE
 
-        crashMap[gameManager.childPosition].setImageResource(R.drawable.img_blast)
+        crashMap[gameManager.childPosition].setImageDrawable(blastDrawable)
         crashSound.start()
 
         vibrate()
@@ -197,7 +260,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun getBonus(){
-        crashMap[gameManager.childPosition].setImageResource(R.drawable.img_10)
+//        crashMap[gameManager.childPosition].setImageResource(R.drawable.img_10)
         Toast.makeText(this, "bonus 10", Toast.LENGTH_SHORT).show()
         score += 10
         bonusSound.start()
@@ -205,17 +268,49 @@ class MainActivity : AppCompatActivity() {
 
     fun gameOver() {
         Toast.makeText(this, "Game Over", Toast.LENGTH_SHORT).show()
-//        clearObjects()
         handler.removeCallbacks(gameLoop)
         unableBtn()
-//        showGameOverDialog()
 
-        val intent = Intent(this, ScoreActivity::class.java)
-        intent.putExtra(KEY_SCORE, score)
-        startActivity(intent)
-        finish()
+        if (hasLocationPermission()) {
+            locationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    saveScoreWithLocation(location)
+                    openScoreActivity()
+                }
+                .addOnFailureListener {
+                    saveScoreWithLocation(null)
+                    openScoreActivity()
+                }
+        } else {
+            saveScoreWithLocation(null)
+            openScoreActivity()
+        }
+
+//        val intent = Intent(this, ScoreActivity::class.java)
+//        intent.putExtra(KEY_SCORE, score)
+//        startActivity(intent)
+//        finish()
 
     }
+
+    private fun saveScoreWithLocation(location: Location?) {
+        val entry = ScoreEntry(
+            score = score,
+            lat = location?.latitude ?: 0.0,
+            lon = location?.longitude ?: 0.0
+        )
+        ScoreStorage.addResult(this, entry)
+        val all = ScoreStorage.loadAll(this)
+        android.util.Log.d("TAL_DEBUG", "Saved scores count=${all.size}, scores=${all.map { it.score }}")
+    }
+
+    private fun openScoreActivity() {
+        val intent = Intent(this, ScoreActivity::class.java)
+        intent.putExtra("KEY_SCORE", score)
+        startActivity(intent)
+        finish()
+    }
+
 
     fun unableBtn() {
         binding.btnLeft.isEnabled = false
@@ -224,7 +319,8 @@ class MainActivity : AppCompatActivity() {
 
     fun clearCrash(){
         for(img in crashMap){
-            img.setImageResource(android.R.color.transparent)
+            if (img.drawable != null) img.setImageDrawable(null)
+//            img.setImageResource(android.R.color.transparent)
         }
     }
     private fun vibrate() {
@@ -316,12 +412,35 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun enableSensors() {
-//        sensorManager.registerListener(...)
+        tiltController.start()
     }
 
     private fun disableSensors() {
-//        sensorManager.unregisterListener(...)
+        tiltController.stop()
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (gameMode == GameMode.SENSORS) tiltController.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        tiltController.stop()
+    }
+
+
+    private fun hasLocationPermission(): Boolean {
+        return checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) ==
+                PackageManager.PERMISSION_GRANTED
+    }
+    private fun requestLocationPermission() {
+        requestPermissions(
+            arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+            LOCATION_PERMISSION_REQ
+        )
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         crashSound.release()

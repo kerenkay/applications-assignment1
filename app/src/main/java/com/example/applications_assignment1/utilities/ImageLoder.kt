@@ -1,15 +1,10 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.utilities
 
 
 import android.content.Context
-import android.graphics.drawable.Drawable
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.os.VibratorManager
 import android.widget.ImageView
-import android.widget.Toast
 import com.bumptech.glide.Glide
+import com.example.applications_assignment1.R
 import java.lang.ref.WeakReference
 
 class ImageLoader private constructor(context: Context) {

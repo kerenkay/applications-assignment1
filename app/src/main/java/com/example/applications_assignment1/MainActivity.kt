@@ -1,30 +1,27 @@
 package com.example.applications_assignment1
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
 import android.location.Location
 import android.media.MediaPlayer
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.VibrationEffect
-import android.os.Vibrator
 import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
-import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.applications_assignment1.databinding.ActivityMainBinding
+import com.example.applications_assignment1.utilities.BackgroundMusicPlayer
+import com.example.applications_assignment1.utilities.ImageLoader
+import com.example.applications_assignment1.utilities.ScoreStorage
+import com.example.applications_assignment1.utilities.SoundEffectPlayer
+import com.example.applications_assignment1.utilities.TiltController
+import com.example.applications_assignment1.utilities.VibrationManager
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import java.util.Locale
 
 
 class MainActivity : AppCompatActivity() {

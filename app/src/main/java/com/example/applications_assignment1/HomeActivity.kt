@@ -3,11 +3,9 @@ package com.example.applications_assignment1
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.example.applications_assignment1.databinding.ActivityHomeBinding
-import com.google.android.material.button.MaterialButton
+import com.example.applications_assignment1.utilities.ImageLoader
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding

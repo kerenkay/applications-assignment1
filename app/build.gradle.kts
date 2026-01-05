@@ -17,6 +17,9 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+//        manifestPlaceholders = [ MAPS_API_KEY: (project.findProperty("MAPS_API_KEY") ?: "") ]
+        manifestPlaceholders["MAPS_API_KEY"] =
+            (project.findProperty("MAPS_API_KEY") as String?) ?: ""
     }
 
     buildTypes {
@@ -58,8 +61,12 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
+//    implementation("com.google.android.gms:play-services-location:21.0.1")
+//    implementation("org.osmdroid:osmdroid-android:6.1.18")
+
+    //location:
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("org.osmdroid:osmdroid-android:6.1.18")
 
     //Glide:
     implementation (libs.glide)

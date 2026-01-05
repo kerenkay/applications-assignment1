@@ -21,9 +21,9 @@ class HomeActivity : AppCompatActivity() {
 
         ImageLoader.init(this)
 
-//        ImageLoader.getInstance()
-//            .loadImage(R.drawable.img_background, binding.imgBackground)
-        binding.imgBackground.setImageResource(R.drawable.img_background)
+        ImageLoader.getInstance()
+            .loadImage(R.drawable.img_background, binding.imgBackground)
+//        binding.imgBackground.setImageResource(R.drawable.img_background)
 
         val btnNewGame = binding.btnStartGame
         val modeContainer = binding.modeContainer

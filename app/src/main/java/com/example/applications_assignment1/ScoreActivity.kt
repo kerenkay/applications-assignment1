@@ -18,10 +18,9 @@ class ScoreActivity : AppCompatActivity() {
         binding = ActivityScoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val imgBackground = findViewById<ImageView>(R.id.imgBackground)
-//        ImageLoader.getInstance()
-//            .loadImage(R.drawable.img_app_background, imgBackground)
-        binding.imgBackground.setImageResource(R.drawable.img_app_background)
+        ImageLoader.getInstance()
+            .loadImage(R.drawable.img_app_background, binding.imgBackground)
+//        binding.imgBackground.setImageResource(R.drawable.img_app_background)
 
         val txtScore = findViewById<TextView>(R.id.txtScore)
         val score = intent.getIntExtra("KEY_SCORE", 0)

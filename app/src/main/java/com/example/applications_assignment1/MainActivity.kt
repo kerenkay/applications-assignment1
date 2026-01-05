@@ -69,10 +69,9 @@ class MainActivity : AppCompatActivity() {
 //            insets
 //        }
 
-//        ImageLoader.getInstance()
-//            .loadImage(R.drawable.img_app_background, binding.imgBackground)
-        binding.imgBackground.setImageResource(R.drawable.img_app_background)
-
+        ImageLoader.getInstance()
+            .loadImage(R.drawable.img_app_background, binding.imgBackground)
+//        binding.imgBackground.setImageResource(R.drawable.img_app_background)
 
         gameMode = GameMode.valueOf(
             intent.getStringExtra("GAME_MODE") ?: GameMode.BUTTONS_SLOW.name
@@ -113,8 +112,14 @@ class MainActivity : AppCompatActivity() {
         giftDrawable = loadD(R.drawable.img_gift)
         blastDrawable = loadD(R.drawable.img_blast)
 
-        crashSound = MediaPlayer.create(this, R.raw.crash_sound)
-        bonusSound = MediaPlayer.create(this, R.raw.bonus_points)
+//        crashSound = MediaPlayer.create(this, R.raw.crash_sound)
+//        bonusSound = MediaPlayer.create(this, R.raw.bonus_points)
+        SoundEffectPlayer.init(this)
+        SoundEffectPlayer.load(this, R.raw.crash_sound)
+        SoundEffectPlayer.load(this, R.raw.bonus_points)
+        BackgroundMusicPlayer.play(this@MainActivity, R.raw.background_music)
+
+        VibrationManager.init(this)
 
         ObjectsMap = arrayOf(
             arrayOf(binding.imgObject00, binding.imgObject01, binding.imgObject02, binding.imgObject03, binding.imgObject04),
@@ -249,9 +254,11 @@ class MainActivity : AppCompatActivity() {
         binding.heart3.visibility = if (lives >= 3) View.VISIBLE else View.INVISIBLE
 
         crashMap[gameManager.childPosition].setImageDrawable(blastDrawable)
-        crashSound.start()
+//        crashSound.start()
+        SoundEffectPlayer.play(R.raw.crash_sound)
 
-        vibrate()
+//        vibrate()
+        VibrationManager.getInstance().vibrate()
         if (lives == 0) {
             gameOver()
         } else {
@@ -266,13 +273,15 @@ class MainActivity : AppCompatActivity() {
 //        crashMap[gameManager.childPosition].setImageResource(R.drawable.img_10)
         Toast.makeText(this, "bonus 10", Toast.LENGTH_SHORT).show()
         score += 10
-        bonusSound.start()
+//        bonusSound.start()
+        SoundEffectPlayer.play(R.raw.bonus_points)
     }
 
     fun gameOver() {
         Toast.makeText(this, "Game Over", Toast.LENGTH_SHORT).show()
         handler.removeCallbacks(gameLoop)
         unableBtn()
+        BackgroundMusicPlayer.stop()
 
         if (hasLocationPermission()) {
             locationClient.lastLocation
@@ -288,12 +297,6 @@ class MainActivity : AppCompatActivity() {
             saveScoreWithLocation(null)
             openScoreActivity()
         }
-
-//        val intent = Intent(this, ScoreActivity::class.java)
-//        intent.putExtra(KEY_SCORE, score)
-//        startActivity(intent)
-//        finish()
-
     }
 
     private fun saveScoreWithLocation(location: Location?) {
@@ -324,21 +327,6 @@ class MainActivity : AppCompatActivity() {
         for(img in crashMap){
             if (img.drawable != null) img.setImageDrawable(null)
 //            img.setImageResource(android.R.color.transparent)
-        }
-    }
-    private fun vibrate() {
-        val v = getSystemService(VIBRATOR_SERVICE) as Vibrator
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            v.vibrate(
-                VibrationEffect.createOneShot(
-                    500,
-                    VibrationEffect.DEFAULT_AMPLITUDE
-                )
-            )
-        } else {
-            @Suppress("DEPRECATION")
-            v.vibrate(500)
         }
     }
 
@@ -400,11 +388,13 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (gameMode == GameMode.SENSORS) tiltController.start()
+        SoundEffectPlayer.resumeAll()
     }
 
     override fun onPause() {
         super.onPause()
         tiltController.stop()
+        SoundEffectPlayer.pauseAll()
     }
 
     private fun setSpeedFromTilt(norm: Float) {
@@ -434,8 +424,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        crashSound.release()
-        bonusSound.release()
+//        crashSound.release()
+//        bonusSound.release()
+        SoundEffectPlayer.release()
         handler.removeCallbacks(gameLoop)
     }
 }

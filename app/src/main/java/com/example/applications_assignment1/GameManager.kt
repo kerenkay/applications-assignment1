@@ -12,7 +12,6 @@ class GameManager(
 ) {
     var lives: Int = 3
     var childPosition: Int = 1
-    var addObject: Boolean = true
     val activeObjects = mutableListOf<FallingObject>()
     var isCrash: Boolean = false
     var isBonus: Boolean = false
@@ -52,37 +51,21 @@ class GameManager(
         }
 
         // add new object
-        if (addObject) {
-            val newCol = (0 until NUM_OF_ROADS).random()
-            val randNum = (0..2).random()
-            var newType: CellType = CellType.EMPTY
-            when(randNum){
-                0 -> newType = CellType.MONSTER
-                1 -> newType = CellType.MONSTER_MIKE
-                2 -> newType = CellType.GIFT
-            }
-            activeObjects.add(FallingObject(row = 0, col = newCol, type = newType))
-            addObject = true
-        } else {
-            addObject = true
+        val newCol = (0 until NUM_OF_ROADS).random()
+        val randNum = (0..2).random()
+        var newType: CellType = CellType.EMPTY
+        when(randNum){
+            0 -> newType = CellType.MONSTER
+            1 -> newType = CellType.MONSTER_MIKE
+            2 -> newType = CellType.GIFT
         }
+        activeObjects.add(FallingObject(row = 0, col = newCol, type = newType))
     }
 
     fun getCellType(row: Int, col: Int): CellType {
         val obj = activeObjects.find { it.row == row && it.col == col }
         return obj?.type ?: CellType.EMPTY
     }
-
-//    fun checkCrash(): Boolean {
-//        var crashed = false
-//        for (obj in activeObjects) {
-//            if (obj.row == NUM_OF_ROWS - 1 && obj.col == childPosition) {
-//                crashed = true
-//                lives--
-//            }
-//        }
-//        return crashed
-//    }
 
     fun clearObjects() {
         activeObjects.clear()

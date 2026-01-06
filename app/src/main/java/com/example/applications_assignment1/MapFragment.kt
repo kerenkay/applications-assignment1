@@ -1,11 +1,8 @@
 package com.example.applications_assignment1
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.example.applications_assignment1.utilities.ScoreStorage
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -13,134 +10,123 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import androidx.fragment.app.activityViewModels
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.Marker
 import java.util.Date
 
-//class MapFragment : Fragment(), OnMapReadyCallback {
-//
-//    private val vm: TopTenViewModel by activityViewModels()
-//
-//    private var map: GoogleMap? = null
-//    private var scores: List<ScoreEntry> = emptyList()
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        // 1) מקבלים את המפה (חשוב: childFragmentManager)
-//        val mapFragment = childFragmentManager
-//            .findFragmentById(R.id.map) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
-//
-//        // 2) מאזינים לשיאים (מה־ViewModel)
-//        vm.scores.observe(viewLifecycleOwner) { list ->
-//            scores = list
-//            drawMarkersIfReady()
-//        }
-//    }
-//
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        map = googleMap
-//        drawMarkersIfReady()
-//    }
-//
-//    private fun drawMarkersIfReady() {
-//        val gMap = map ?: return
-//        if (scores.isEmpty()) return
-//
-//        // 3) ניקוי + הוספת markers
-//        gMap.clear()
-//
-//        val valid = scores.filter { it.lat != 0.0 && it.lon != 0.0 }
-//        if (valid.isEmpty()) return
-//
-//        valid.forEach { entry ->
-//            val pos = LatLng(entry.lat, entry.lon)
-//            gMap.addMarker(
-//                MarkerOptions()
-//                    .position(pos)
-//                    .title("Score: ${entry.score}")
-//                    .snippet(Date(entry.timestamp).toString())
-//            )
-//        }
-//
-//        // 4) Zoom לנקודה הכי גבוהה (או אחרונה)
-//        val focus = valid.maxBy { it.score }
-//        gMap.moveCamera(
-//            CameraUpdateFactory.newLatLngZoom(LatLng(focus.lat, focus.lon), 10f)
-//        )
-//    }
-//}
+class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 
+    private val vm: TopTenViewModel by activityViewModels()
+    private var gMap: GoogleMap? = null
 
-//class MapFragment : Fragment(), OnMapReadyCallback {
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        val mapFragment = childFragmentManager
-//            .findFragmentById(R.id.map) as SupportMapFragment
-//
-//        mapFragment.getMapAsync(this)
-//    }
-//
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        if (ContextCompat.checkSelfPermission(
-//                requireContext(),
-//                Manifest.permission.ACCESS_FINE_LOCATION
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            googleMap.isMyLocationEnabled = true
-//        }
-//    }
-//}
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val mapFrag = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+        mapFrag.getMapAsync(this)
 
-//class MapFragment : Fragment(R.layout.fragment_map) {
-//
-//    private lateinit var map: MapView
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        map = view.findViewById(R.id.map)
-//        map.setMultiTouchControls(true)
-//
-//        val controller = map.controller
-//        controller.setZoom(12.0)
-//        controller.setCenter(GeoPoint(32.0853, 34.7818))
-//
-//        val list = ScoreStorage.loadAll(requireContext())
-//        list.filter { it.lat != 0.0 && it.lon != 0.0 }.forEach { e ->
-//            val marker = Marker(map)
-//            marker.position = GeoPoint(e.lat, e.lon)
-//            marker.title = "Score: ${e.score}"
-//            map.overlays.add(marker)
-//        }
-//
-//        map.invalidate()
-//    }
-//
-//    override fun onResume() {
-//        super.onResume()
-//        map.onResume()
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        map.onPause()
-//    }
-//}
+        vm.top10.observe(viewLifecycleOwner) { list ->
+            drawIfReady(list)
+        }
+    }
 
+    override fun onMapReady(map: GoogleMap) {
+        gMap = map
+
+        map.moveCamera(
+            CameraUpdateFactory.newLatLngZoom(LatLng(32.0853, 34.7818), 10f)
+        )
+
+        android.util.Log.d("MAP", "onMapReady called")
+
+        vm.top10.value?.let { drawIfReady(it) }
+    }
+
+    private fun drawIfReady(list: List<ScoreEntry>) {
+        val googleMap = gMap ?: return
+
+        val top10 = list
+            .sortedByDescending { it.score }
+            .take(10)
+
+        googleMap.clear()
+
+        val valid = top10.filter { it.lat != 0.0 && it.lon != 0.0 }
+        if (valid.isEmpty()) {
+            googleMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(LatLng(32.0853, 34.7818), 10f)
+            )
+            return
+        }
+
+        val boundsBuilder = LatLngBounds.Builder()
+
+        valid.forEachIndexed { index, e ->
+            val rank = index + 1
+            val pos = LatLng(e.lat, e.lon)
+
+            googleMap.addMarker(
+                MarkerOptions()
+                    .position(pos)
+                    .title("#$rank  Score: ${e.score}")
+                    .snippet(Date(e.timestamp).toString())
+            )
+
+            boundsBuilder.include(pos)
+        }
+
+        view?.post {
+            try {
+                val bounds = boundsBuilder.build()
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, 120))
+            } catch (_: Exception) {
+                val first = valid.first()
+                googleMap.moveCamera(
+                    CameraUpdateFactory.newLatLngZoom(LatLng(first.lat, first.lon), 12f)
+                )
+            }
+        }
+    }
+
+    fun zoomTo(lat: Double, lon: Double) {
+        val googleMap = gMap ?: return
+        val pos = if (lat != 0.0 && lon != 0.0) LatLng(lat, lon) else LatLng(32.0853, 34.7818)
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
+    }
+}
 
 //class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 //
+//    private val vm: TopTenViewModel by activityViewModels()
+//
+//    private var gMap: GoogleMap? = null
+//    private var scores: List<ScoreEntry> = emptyList()
+//    private var map: GoogleMap? = null
+//
 //    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        val mapFrag = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment
+//        val mapFrag = childFragmentManager
+//            .findFragmentById(R.id.map) as SupportMapFragment
 //        mapFrag.getMapAsync(this)
+//
+//        vm.top10.observe(viewLifecycleOwner) { list ->
+//            scores = list
+//            drawIfReady()
+//        }
 //    }
 //
 //    override fun onMapReady(map: GoogleMap) {
-//        val list = ScoreStorage.loadAll(requireContext())
+//        gMap = map
+//        drawIfReady()
+//    }
 //
-//        list.filter { it.lat != 0.0 && it.lon != 0.0 }.forEach { e ->
+//    private fun drawIfReady() {
+//        val map = gMap ?: return
+//        val list = scores.filter { it.lat != 0.0 && it.lon != 0.0 }
+//        if (list.isEmpty()) return
+//
+//        map.clear()
+//
+//        list.forEach { e ->
 //            map.addMarker(
 //                MarkerOptions()
 //                    .position(LatLng(e.lat, e.lon))
@@ -148,72 +134,85 @@ import java.util.Date
 //            )
 //        }
 //
-//        list.firstOrNull { it.lat != 0.0 && it.lon != 0.0 }?.let {
-//            map.moveCamera(
-//                CameraUpdateFactory.newLatLngZoom(LatLng(it.lat, it.lon), 11f)
-//            )
+//        val focus = list.maxBy { it.score }
+//        map.moveCamera(
+//            CameraUpdateFactory.newLatLngZoom(LatLng(focus.lat, focus.lon), 10f)
+//        )
+//    }
+//        fun zoomTo(lat: Double, lon: Double) {
+//        val googleMap = map ?: return
+//
+//        // Use default location if coordinates are missing (same logic as onMapReady)
+//        val pos = if (lat != 0.0 && lon != 0.0) {
+//            LatLng(lat, lon)
+//        } else {
+//             LatLng(32.0853, 34.7818)
 //        }
+//
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
 //    }
 //}
 
-
-
-//package com.example.applications_assignment1
 //
-//import android.os.Bundle
-//import androidx.fragment.app.Fragment
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
+//class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
 //
-//// TODO: Rename parameter arguments, choose names that match
-//// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-//private const val ARG_PARAM1 = "param1"
-//private const val ARG_PARAM2 = "param2"
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
 //
-///**
-// * A simple [Fragment] subclass.
-// * Use the [MapFragment.newInstance] factory method to
-// * create an instance of this fragment.
-// */
-//class MapFragment : Fragment() {
-//    // TODO: Rename and change types of parameters
-//    private var param1: String? = null
-//    private var param2: String? = null
+//        val mapFragment = childFragmentManager.findFragmentById(R.id.map) as? SupportMapFragment
+//        mapFragment?.getMapAsync(this)
+//    }
 //
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
+//    fun zoomTo(lat: Double, lon: Double) {
+//        val googleMap = map ?: return
+//
+//        // Use default location if coordinates are missing (same logic as onMapReady)
+//        val pos = if (lat != 0.0 && lon != 0.0) {
+//            LatLng(lat, lon)
+//        } else {
+//             LatLng(32.0853, 34.7818)
 //        }
+//
+//        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pos, 15f))
 //    }
 //
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_map, container, false)
-//    }
+//    // Store map reference
+//    private var map: GoogleMap? = null
 //
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment MapFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            MapFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
-//                }
+//    override fun onMapReady(googleMap: GoogleMap) {
+//        map = googleMap
+//        val context = context ?: return
+//        val scores = ScoreStorage.loadAll(context)
+//
+//        // Default location: Tel Aviv
+//        val defaultLoc = LatLng(32.0853, 34.7818)
+//
+//        scores.forEach { entry ->
+//            val position = if (entry.lat != 0.0 && entry.lon != 0.0) {
+//                LatLng(entry.lat, entry.lon)
+//            } else {
+//                defaultLoc
 //            }
+//
+//            googleMap.addMarker(
+//                MarkerOptions()
+//                    .position(position)
+//                    .title("Score: ${entry.score}")
+//                    .snippet(Date(entry.timestamp).toString())
+//            )
+//        }
+//
+//        // Center map
+//        if (scores.isNotEmpty()) {
+//            val validOrFirst = scores.firstOrNull { it.lat != 0.0 && it.lon != 0.0 }
+//            val target = if (validOrFirst != null) {
+//                LatLng(validOrFirst.lat, validOrFirst.lon)
+//            } else {
+//                defaultLoc
+//            }
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(target, 12f))
+//        } else {
+//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLoc, 12f))
+//        }
 //    }
 //}

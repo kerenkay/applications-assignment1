@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class ScoreAdapter : RecyclerView.Adapter<ScoreAdapter.VH>() {
+class ScoreAdapter(
+    var onScoreClicked: ((Double, Double) -> Unit)? = null
+) : RecyclerView.Adapter<ScoreAdapter.VH>() {
 
     private var items: List<ScoreEntry> = emptyList()
 
@@ -24,6 +26,10 @@ class ScoreAdapter : RecyclerView.Adapter<ScoreAdapter.VH>() {
         val entry = items[position]
         android.util.Log.d("TAL_DEBUG", "bind pos=$position score=${entry.score}")
         holder.score.text = entry.score.toString()
+
+        holder.itemView.setOnClickListener {
+            onScoreClicked?.invoke(entry.lat, entry.lon)
+        }
     }
 
     override fun getItemCount(): Int {

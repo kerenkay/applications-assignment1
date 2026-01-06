@@ -11,9 +11,20 @@ class ScoreFragment : Fragment(R.layout.fragment_score) {
 
     private lateinit var adapter: ScoreAdapter
 
+    // Interface to communicate with Activity/Map
+    interface ScoreCallback {
+        fun onScoreClicked(lat: Double, lon: Double)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val rv = view.findViewById<RecyclerView>(R.id.rvTopTen)
         adapter = ScoreAdapter()
+        
+        adapter.onScoreClicked = { lat, lon ->
+            // Notify parent activity if it implements the interface
+            (activity as? ScoreCallback)?.onScoreClicked(lat, lon)
+        }
+
         rv.layoutManager = LinearLayoutManager(requireContext())
         rv.adapter = adapter
     }

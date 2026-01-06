@@ -284,23 +284,34 @@ class MainActivity : AppCompatActivity() {
             locationClient.lastLocation
                 .addOnSuccessListener { location ->
                     saveScoreWithLocation(location)
+//                    saveScoreWithLocation(score)
                     openScoreActivity()
                 }
                 .addOnFailureListener {
                     saveScoreWithLocation(null)
+//                    saveScoreWithLocation(score)
                     openScoreActivity()
                 }
         } else {
             saveScoreWithLocation(null)
+//            saveScoreWithLocation(score)
             openScoreActivity()
         }
     }
 
+//    private fun saveScoreWithLocation(finalScore: Int) {
+//        LocationHelper(this).getLastLocation { lat, lon ->
+//            val entry = ScoreEntry(score = finalScore, lat = lat, lon = lon)
+//            ScoreStorage.addResult(this, entry)
+//
+//        }
+//    }
+
     private fun saveScoreWithLocation(location: Location?) {
         val entry = ScoreEntry(
             score = score,
-            lat = location?.latitude ?: 0.0,
-            lon = location?.longitude ?: 0.0
+            lat = location?.latitude ?: 32.109333,
+            lon = location?.longitude ?: 34.855499
         )
         ScoreStorage.addResult(this, entry)
         val all = ScoreStorage.loadAll(this)
@@ -405,8 +416,6 @@ class MainActivity : AppCompatActivity() {
         android.util.Log.d("SPEED", "norm=$norm DELAY=$DELAY")
 
     }
-
-
 
     private fun hasLocationPermission(): Boolean {
         return checkSelfPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) ==

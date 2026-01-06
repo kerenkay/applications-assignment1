@@ -4,18 +4,21 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.applications_assignment1.databinding.ActivityTopTenBinding
 
-class TopTenActivity : AppCompatActivity() {
+class TopTenActivity : AppCompatActivity(), ScoreFragment.ScoreCallback {
     private lateinit var binding: ActivityTopTenBinding
+    private lateinit var mapFragment: MapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTopTenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mapFragment = MapFragment()
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.layLst, ScoreFragment())
-                .add(R.id.layMap, MapFragment())
+                .add(R.id.layMap, mapFragment)
                 .commit()
         }
 
@@ -24,4 +27,7 @@ class TopTenActivity : AppCompatActivity() {
         }
     }
 
+    override fun onScoreClicked(lat: Double, lon: Double) {
+        mapFragment.zoomTo(lat, lon)
+    }
 }

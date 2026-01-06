@@ -18,9 +18,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ApplicationsAssignment1">
 
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="${MAPS_API_KEY}" />-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyD5lnLmMROz8RKpKeDPir_L-WNtbyeIvSM" />
 
         <activity
             android:name=".TopTenActivity"

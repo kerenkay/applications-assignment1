@@ -61,6 +61,8 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
 
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+
 //    implementation("com.google.android.gms:play-services-location:21.0.1")
 //    implementation("org.osmdroid:osmdroid-android:6.1.18")
 

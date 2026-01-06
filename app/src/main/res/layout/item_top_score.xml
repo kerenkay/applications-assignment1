@@ -1,32 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp"
-    android:gravity="center_vertical">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="3dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#D9CFBF"
+    app:cardBackgroundColor="#F4EEDF">
 
-    <TextView
-        android:id="@+id/txtRank"
-        android:layout_width="40dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:paddingVertical="10dp"
+        android:paddingHorizontal="12dp">
 
-    <TextView
-        android:id="@+id/txtScore"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        <!-- #rank -->
+        <TextView
+            android:id="@+id/txtRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="#1"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-    <TextView
-        android:id="@+id/txtLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"/>
-</LinearLayout>
+        <!-- name -->
+        <TextView
+            android:id="@+id/txtName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Keren"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/txtRank"
+            app:layout_constraintEnd_toStartOf="@id/txtScore"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- score -->
+        <TextView
+            android:id="@+id/txtScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="870"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
+
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:orientation="horizontal"-->
+<!--    android:padding="12dp"-->
+<!--    android:gravity="center_vertical">-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtRank"-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textStyle="bold"-->
+<!--        android:textSize="16sp"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtScore"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_weight="1"-->
+<!--        android:textSize="18sp"-->
+<!--        android:textStyle="bold"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/txtLocation"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:textSize="14sp"/>-->
+<!--</LinearLayout>-->
 
 

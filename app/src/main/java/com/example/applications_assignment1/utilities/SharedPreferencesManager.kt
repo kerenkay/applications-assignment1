@@ -4,7 +4,7 @@ import android.content.Context
 import com.example.applications_assignment1.ScoreEntry
 
 class SharedPreferencesManager private constructor(context: Context) {
-
+    private val KEY_LAST_NAME = "LAST_PLAYER_NAME"
     private val prefs = context.getSharedPreferences(
         "game_settings",
         Context.MODE_PRIVATE
@@ -57,5 +57,13 @@ class SharedPreferencesManager private constructor(context: Context) {
 
     fun clearScores() {
         prefs.edit().remove(KEY_SCORES).apply()
+    }
+
+    fun saveLastPlayerName(name: String) {
+        prefs.edit().putString(KEY_LAST_NAME, name).apply()
+    }
+
+    fun getLastPlayerName(): String {
+        return prefs.getString(KEY_LAST_NAME, "") ?: ""
     }
 }

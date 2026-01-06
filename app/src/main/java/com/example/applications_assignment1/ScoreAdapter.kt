@@ -13,6 +13,8 @@ class ScoreAdapter(
     private var items: List<ScoreEntry> = emptyList()
 
     class VH(v: View) : RecyclerView.ViewHolder(v) {
+        val rank: TextView = v.findViewById(R.id.txtRank)
+        val name: TextView = v.findViewById(R.id.txtName)
         val score: TextView = v.findViewById(R.id.txtScore)
     }
 
@@ -24,7 +26,9 @@ class ScoreAdapter(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         val entry = items[position]
-        android.util.Log.d("TAL_DEBUG", "bind pos=$position score=${entry.score}")
+
+        holder.rank.text = "#${position + 1}"
+        holder.name.text = entry.name
         holder.score.text = entry.score.toString()
 
         holder.itemView.setOnClickListener {
@@ -32,61 +36,48 @@ class ScoreAdapter(
         }
     }
 
-    override fun getItemCount(): Int {
-        android.util.Log.d("TAL_DEBUG", "itemCount=${items.size}")
-        return items.size
-    }
+    override fun getItemCount(): Int = items.size
 
     fun submit(list: List<ScoreEntry>) {
-        android.util.Log.d("TAL_DEBUG", "submit size=${list.size} scores=${list.map { it.score }}")
-        items = list
+        items = list.sortedByDescending { it.score }.take(10)
         notifyDataSetChanged()
     }
 }
 
-
-//class TopTenAdapter : RecyclerView.Adapter<TopTenAdapter.ScoreViewHolder>() {
+//class ScoreAdapter(
+//    var onScoreClicked: ((Double, Double) -> Unit)? = null
+//) : RecyclerView.Adapter<ScoreAdapter.VH>() {
 //
 //    private var items: List<ScoreEntry> = emptyList()
 //
-//    class ScoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val txtRank: TextView = itemView.findViewById(R.id.txtRank)
-//        val txtScore: TextView = itemView.findViewById(R.id.txtScore)
-//        val txtLocation: TextView = itemView.findViewById(R.id.txtLocation)
+//    class VH(v: View) : RecyclerView.ViewHolder(v) {
+//        val score: TextView = v.findViewById(R.id.txtScore)
 //    }
 //
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScoreViewHolder {
-//        val view = LayoutInflater.from(parent.context)
+//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+//        val v = LayoutInflater.from(parent.context)
 //            .inflate(R.layout.item_top_score, parent, false)
-//        return ScoreViewHolder(view)
+//        return VH(v)
 //    }
 //
-//    override fun onBindViewHolder(holder: ScoreViewHolder, position: Int) {
+//    override fun onBindViewHolder(holder: VH, position: Int) {
 //        val entry = items[position]
+//        android.util.Log.d("KEREN_DEBUG", "bind pos=$position score=${entry.score}")
+//        holder.score.text = entry.score.toString()
 //
-//        holder.txtRank.text = "#${position + 1}"
-//        holder.txtScore.text = "Score: ${entry.score}"
-//
-//        if (entry.lat != 0.0 && entry.lon != 0.0) {
-//            holder.txtLocation.text =
-//                "(${format(entry.lat)}, ${format(entry.lon)})"
-//        } else {
-//            holder.txtLocation.text = "Location unavailable"
+//        holder.itemView.setOnClickListener {
+//            onScoreClicked?.invoke(entry.lat, entry.lon)
 //        }
-//        android.util.Log.d("TAL_DEBUG", "bind pos=$position score=${entry.score}")
-//
 //    }
 //
-//    override fun getItemCount(): Int = items.size
+//    override fun getItemCount(): Int {
+//        android.util.Log.d("KEREN_DEBUG", "itemCount=${items.size}")
+//        return items.size
+//    }
 //
 //    fun submit(list: List<ScoreEntry>) {
+//        android.util.Log.d("KEREN_DEBUG", "submit size=${list.size} scores=${list.map { it.score }}")
 //        items = list
 //        notifyDataSetChanged()
 //    }
-//
-//    private fun format(value: Double): String {
-//        return String.format("%.3f", value)
-//    }
 //}
-//
-//

@@ -36,4 +36,22 @@ object ScoreStorage {
             .getInstance()
             .saveScores(list)
     }
+
+    fun clearAll() {
+        saveAll(emptyList())
+    }
+
+    fun getBestScore(): ScoreEntry? {
+        return loadAll().maxByOrNull { it.score }
+    }
+
+    fun isNewHighScore(score: Int): Boolean {
+        val list = loadAll()
+        if (list.size < 10) return true
+        return list.any { score > it.score }
+    }
+
+    fun size(): Int {
+        return loadAll().size
+    }
 }

@@ -286,52 +286,36 @@ class MainActivity : AppCompatActivity() {
         if (hasLocationPermission()) {
             locationClient.lastLocation
                 .addOnSuccessListener { location ->
-                    saveScoreWithLocation(location)
-//                    saveScoreWithLocation(score)
-                    openScoreActivity()
+//                    saveScoreWithLocation(location)
+                    openScoreActivity(location)
                 }
                 .addOnFailureListener {
-                    saveScoreWithLocation(null)
-//                    saveScoreWithLocation(score)
-                    openScoreActivity()
+//                    saveScoreWithLocation(null)
+                    openScoreActivity(null)
                 }
         } else {
-            saveScoreWithLocation(null)
-//            saveScoreWithLocation(score)
-            openScoreActivity()
+//            saveScoreWithLocation(null)
+            openScoreActivity(null)
         }
     }
 
-    private fun showNameDialog(onNameEntered: (String) -> Unit) {
-        val input = EditText(this)
-        input.hint = "Enter your name"
-        input.inputType = InputType.TYPE_CLASS_TEXT
-        input.maxLines = 1
 
-        AlertDialog.Builder(this)
-            .setTitle("New High Score!")
-            .setMessage("Please enter your name:")
-            .setView(input)
-            .setCancelable(false)
-            .setPositiveButton("OK") { _, _ ->
-                val name = input.text.toString().trim()
-                onNameEntered(if (name.isNotEmpty()) name else "Player")
-            }
-            .show()
-    }
+//    private fun saveScoreWithLocation(location: Location?) {
+//        val entry = ScoreEntry(
+//            score = score,
+//            lat = location?.latitude ?: 0.0,
+//            lon = location?.longitude ?: 0.0
+//        )
+//        ScoreStorage.addResult(entry)
+//        //            lat = location?.latitude ?: 32.109333,
+////            lon = location?.longitude ?: 34.855499
+//    }
 
-    private fun saveScoreWithLocation(location: Location?) {
-        val entry = ScoreEntry(
-            score = score,
-            lat = location?.latitude ?: 32.109333,
-            lon = location?.longitude ?: 34.855499
-        )
-        ScoreStorage.addResult(entry)
-    }
-
-    private fun openScoreActivity() {
+    private fun openScoreActivity(location: Location?) {
         val intent = Intent(this, ScoreActivity::class.java)
         intent.putExtra("KEY_SCORE", score)
+        intent.putExtra("EXTRA_LAT", location?.latitude?: 0.0)
+        intent.putExtra("EXTRA_LON",location?.longitude?: 0.0)
         startActivity(intent)
         finish()
     }

@@ -1,5 +1,6 @@
 package com.example.applications_assignment1
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.Drawable
@@ -8,7 +9,9 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.InputType
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -299,13 +302,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun saveScoreWithLocation(finalScore: Int) {
-//        LocationHelper(this).getLastLocation { lat, lon ->
-//            val entry = ScoreEntry(score = finalScore, lat = lat, lon = lon)
-//            ScoreStorage.addResult(this, entry)
-//
-//        }
-//    }
+    private fun showNameDialog(onNameEntered: (String) -> Unit) {
+        val input = EditText(this)
+        input.hint = "Enter your name"
+        input.inputType = InputType.TYPE_CLASS_TEXT
+        input.maxLines = 1
+
+        AlertDialog.Builder(this)
+            .setTitle("New High Score!")
+            .setMessage("Please enter your name:")
+            .setView(input)
+            .setCancelable(false)
+            .setPositiveButton("OK") { _, _ ->
+                val name = input.text.toString().trim()
+                onNameEntered(if (name.isNotEmpty()) name else "Player")
+            }
+            .show()
+    }
 
     private fun saveScoreWithLocation(location: Location?) {
         val entry = ScoreEntry(
@@ -313,9 +326,7 @@ class MainActivity : AppCompatActivity() {
             lat = location?.latitude ?: 32.109333,
             lon = location?.longitude ?: 34.855499
         )
-        ScoreStorage.addResult(this, entry)
-        val all = ScoreStorage.loadAll(this)
-        android.util.Log.d("TAL_DEBUG", "Saved scores count=${all.size}, scores=${all.map { it.score }}")
+        ScoreStorage.addResult(entry)
     }
 
     private fun openScoreActivity() {
@@ -430,8 +441,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-//        crashSound.release()
-//        bonusSound.release()
         SoundEffectPlayer.release()
         handler.removeCallbacks(gameLoop)
     }

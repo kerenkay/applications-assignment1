@@ -28,7 +28,7 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     override fun onMapReady(map: GoogleMap) {
         gMap = map
 
-        val top10 = ScoreStorage.loadTop10(requireContext())
+        val top10 = ScoreStorage.loadTop10()
         drawMarkers(top10)
     }
 
@@ -90,6 +90,6 @@ class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {
     }
 
     fun refresh() {
-        drawMarkers(ScoreStorage.loadTop10(requireContext()))
+        drawMarkers(ScoreStorage.loadTop10())
     }
 }

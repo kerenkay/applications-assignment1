@@ -18,12 +18,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ApplicationsAssignment1">
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
-        <!-- android:value="${MAPS_API_KEY}" /> -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyD5lnLmMROz8RKpKeDPir_L-WNtbyeIvSM" />
+         <meta-data
+         android:name="com.google.android.geo.API_KEY"
+         android:value="${MAPS_API_KEY}" />
 
         <activity
             android:name=".TopTenActivity"

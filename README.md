@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="_assets/logo.png" alt="Monster Game Cover" width="400"/>
+  <img src="_assets/logo.png" alt="Monster Game Cover" width="300"/>
 </p>
 
 # 🎮 Monster University Game – Android Application
@@ -29,7 +29,7 @@ The application is developed in **Kotlin**, with a strong focus on clean archite
 ---
 
 ## Demonstration
-https://raw.githubusercontent.com/kerenkay/applications-assignment1/blob/master/_assets/demo.mp4
+https://raw.githubusercontent.com/kerenkay/applications-assignment1/master/_assets/demo.mp4
 
 ---
 

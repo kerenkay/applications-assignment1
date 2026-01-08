@@ -1,11 +1,15 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.ui.home
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.example.applications_assignment1.ui.game.GameMode
+import com.example.applications_assignment1.ui.game.MainActivity
+import com.example.applications_assignment1.R
+import com.example.applications_assignment1.ui.topTen.TopTenActivity
 import com.example.applications_assignment1.databinding.ActivityHomeBinding
-import com.example.applications_assignment1.utilities.ImageLoader
+import com.example.applications_assignment1.util.ImageLoader
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
@@ -17,9 +21,9 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ImageLoader.init(this)
+        ImageLoader.Companion.init(this)
 
-        ImageLoader.getInstance()
+        ImageLoader.Companion.getInstance()
             .loadImage(R.drawable.img_background, binding.imgBackground)
 //        binding.imgBackground.setImageResource(R.drawable.img_background)
 

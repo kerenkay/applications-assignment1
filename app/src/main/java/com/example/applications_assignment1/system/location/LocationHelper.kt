@@ -1,4 +1,4 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.system.location
 
 import android.Manifest
 import android.app.Activity

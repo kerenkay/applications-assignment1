@@ -1,11 +1,12 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.ui.topTen
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.applications_assignment1.utilities.ScoreStorage
+import com.example.applications_assignment1.R
+import com.example.applications_assignment1.data.storage.ScoreStorage
 
 class ScoreFragment : Fragment(R.layout.fragment_score) {
 
@@ -19,7 +20,7 @@ class ScoreFragment : Fragment(R.layout.fragment_score) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val rv = view.findViewById<RecyclerView>(R.id.rvTopTen)
         adapter = ScoreAdapter()
-        
+
         adapter.onScoreClicked = { lat, lon ->
             // Notify parent activity if it implements the interface
             (activity as? ScoreCallback)?.onScoreClicked(lat, lon)

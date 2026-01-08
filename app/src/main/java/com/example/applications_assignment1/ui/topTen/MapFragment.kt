@@ -1,16 +1,18 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.ui.topTen
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.example.applications_assignment1.utilities.ScoreStorage
+import com.example.applications_assignment1.R
+import com.example.applications_assignment1.data.model.ScoreEntry
+import com.example.applications_assignment1.data.storage.ScoreStorage
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Date
 
 class MapFragment : Fragment(R.layout.fragment_map), OnMapReadyCallback {

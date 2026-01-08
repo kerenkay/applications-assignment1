@@ -1,4 +1,4 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.data.model
 
 data class ScoreEntry(
     val name: String,

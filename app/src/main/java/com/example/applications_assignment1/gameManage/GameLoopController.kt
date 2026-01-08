@@ -1,4 +1,4 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.gameManage
 
 import android.os.Handler
 import android.os.Looper

@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
-        android:name=".Application"
+        android:name=".MyApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,10 +23,10 @@
             android:value="${MAPS_API_KEY}" />
 
         <activity
-            android:name=".TopTenActivity"
+            android:name=".ui.topTen.TopTenActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".ui.home.HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,10 +35,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.game.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".ScoreActivity"
+            android:name=".ui.game.ScoreActivity"
             android:exported="true" />
     </application>
 

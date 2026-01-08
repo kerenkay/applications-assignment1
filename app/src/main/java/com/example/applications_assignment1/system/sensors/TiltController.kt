@@ -1,8 +1,8 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.system.sensors
 
 import android.content.Context
 import android.util.Log
-import com.example.applications_assignment1.GameMode
+import com.example.applications_assignment1.ui.game.GameMode
 
 class TiltController(
     private val context: Context,

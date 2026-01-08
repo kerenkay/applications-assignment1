@@ -1,11 +1,12 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.data.storage
 
-import com.example.applications_assignment1.ScoreEntry
+import com.example.applications_assignment1.data.model.ScoreEntry
+import com.example.applications_assignment1.data.storage.SharedPreferencesManager
 
 object ScoreStorage {
 
     fun addResult(entry: ScoreEntry) {
-        val sp = SharedPreferencesManager.getInstance()
+        val sp = SharedPreferencesManager.Companion.getInstance()
 
         val list = sp.loadScores()
         list.add(entry)
@@ -18,7 +19,7 @@ object ScoreStorage {
     }
 
     fun loadTop10(): List<ScoreEntry> {
-        return SharedPreferencesManager
+        return SharedPreferencesManager.Companion
             .getInstance()
             .loadScores()
             .sortedByDescending { it.score }
@@ -26,13 +27,13 @@ object ScoreStorage {
     }
 
     fun loadAll(): MutableList<ScoreEntry> {
-        return SharedPreferencesManager
+        return SharedPreferencesManager.Companion
             .getInstance()
             .loadScores()
     }
 
     fun saveAll(list: List<ScoreEntry>) {
-        SharedPreferencesManager
+        SharedPreferencesManager.Companion
             .getInstance()
             .saveScores(list)
     }

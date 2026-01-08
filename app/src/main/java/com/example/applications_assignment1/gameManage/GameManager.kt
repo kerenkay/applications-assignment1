@@ -1,4 +1,6 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.gameManage
+
+import com.example.applications_assignment1.gameManage.FallingObject
 
 enum class CellType {
     EMPTY,

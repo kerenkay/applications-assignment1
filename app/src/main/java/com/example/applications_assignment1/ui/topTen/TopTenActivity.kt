@@ -1,7 +1,9 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.ui.topTen
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.applications_assignment1.R
+import com.example.applications_assignment1.ui.topTen.ScoreFragment
 import com.example.applications_assignment1.databinding.ActivityTopTenBinding
 
 class TopTenActivity : AppCompatActivity(), ScoreFragment.ScoreCallback {

@@ -1,10 +1,9 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.gameManage
 
 import android.view.View
 import android.widget.ImageView
-import com.example.applications_assignment1.CellType
-import com.example.applications_assignment1.GameManager
 import com.example.applications_assignment1.databinding.ActivityMainBinding
+import com.example.applications_assignment1.gameManage.GameObjects
 
 class BoardRenderer(
     private val binding: ActivityMainBinding,

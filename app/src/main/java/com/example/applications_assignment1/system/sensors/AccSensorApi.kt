@@ -1,4 +1,4 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.system.sensors
 
 import android.content.Context
 import android.hardware.Sensor

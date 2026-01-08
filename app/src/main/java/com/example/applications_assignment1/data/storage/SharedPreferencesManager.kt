@@ -1,7 +1,9 @@
-package com.example.applications_assignment1.utilities
+package com.example.applications_assignment1.data.storage
 
 import android.content.Context
-import com.example.applications_assignment1.ScoreEntry
+import com.example.applications_assignment1.data.model.ScoreEntry
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 class SharedPreferencesManager private constructor(context: Context) {
     private val KEY_LAST_NAME = "LAST_PLAYER_NAME"
@@ -10,7 +12,7 @@ class SharedPreferencesManager private constructor(context: Context) {
         Context.MODE_PRIVATE
     )
 
-    private val gson = com.google.gson.Gson()
+    private val gson = Gson()
 
     companion object {
         @Volatile
@@ -46,7 +48,7 @@ class SharedPreferencesManager private constructor(context: Context) {
         val json = prefs.getString(KEY_SCORES, null) ?: return mutableListOf()
 
         val type = object :
-            com.google.gson.reflect.TypeToken<MutableList<ScoreEntry>>() {}.type
+            TypeToken<MutableList<ScoreEntry>>() {}.type
 
         return runCatching {
             gson.fromJson<MutableList<ScoreEntry>>(json, type)

@@ -1,16 +1,18 @@
-package com.example.applications_assignment1
+package com.example.applications_assignment1.ui.game
 
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
-import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.applications_assignment1.R
+import com.example.applications_assignment1.data.model.ScoreEntry
+import com.example.applications_assignment1.ui.topTen.TopTenActivity
 import com.example.applications_assignment1.databinding.ActivityScoreBinding
-import com.example.applications_assignment1.utilities.ImageLoader
-import com.example.applications_assignment1.utilities.ScoreStorage
-import com.example.applications_assignment1.utilities.SharedPreferencesManager
+import com.example.applications_assignment1.util.ImageLoader
+import com.example.applications_assignment1.data.storage.ScoreStorage
+import com.example.applications_assignment1.data.storage.SharedPreferencesManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -22,7 +24,7 @@ class ScoreActivity : AppCompatActivity() {
         binding = ActivityScoreBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        ImageLoader.getInstance()
+        ImageLoader.Companion.getInstance()
             .loadImage(R.drawable.img_app_background, binding.imgBackground)
 
         val txtScore = findViewById<TextView>(R.id.txtScore)
@@ -70,7 +72,7 @@ class ScoreActivity : AppCompatActivity() {
         val btnSave = view.findViewById<MaterialButton>(R.id.btnSave)
         val txtError = view.findViewById<TextView>(R.id.txtError)
 
-        val lastName = SharedPreferencesManager.getInstance().getLastPlayerName()
+        val lastName = SharedPreferencesManager.Companion.getInstance().getLastPlayerName()
         edtName.setText(lastName)
         edtName.setSelection(edtName.text?.length ?: 0)
 
@@ -90,7 +92,7 @@ class ScoreActivity : AppCompatActivity() {
             }
 
             inputLayout.error = null
-            SharedPreferencesManager.getInstance().saveLastPlayerName(name)
+            SharedPreferencesManager.Companion.getInstance().saveLastPlayerName(name)
             onNameConfirmed(name)
             dialog.dismiss()
         }

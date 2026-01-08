@@ -25,7 +25,6 @@ class HomeActivity : AppCompatActivity() {
 
         ImageLoader.Companion.getInstance()
             .loadImage(R.drawable.img_background, binding.imgBackground)
-//        binding.imgBackground.setImageResource(R.drawable.img_background)
 
         val btnNewGame = binding.btnStartGame
         val modeContainer = binding.modeContainer
@@ -51,15 +50,8 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startGame(mode: GameMode) {
-//        saveGameMode(mode)
-
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra(KEY_GAME_MODE, mode.name)
         startActivity(intent)
     }
-
-//    private fun saveGameMode(mode: GameMode) {
-//        val prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
-//        prefs.edit().putString(KEY_GAME_MODE, mode.name).apply()
-//    }
 }

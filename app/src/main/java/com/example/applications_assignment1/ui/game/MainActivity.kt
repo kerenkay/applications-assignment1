@@ -135,7 +135,7 @@ class MainActivity : AppCompatActivity() {
         renderer.showCrashAt(gameManager.childPosition)
 
         SoundEffectPlayer.play(R.raw.crash_sound)
-        VibrationManager.Companion.getInstance().vibrate()
+        VibrationManager.getInstance().vibrate()
 
         if (gameManager.lives == 0) {
             gameOver()

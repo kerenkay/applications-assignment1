@@ -72,19 +72,4 @@
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <!--    <com.google.android.material.button.MaterialButton-->
-<!--        android:id="@+id/btnClose"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_alignParentBottom="true"-->
-<!--        android:layout_centerHorizontal="true"-->
-<!--        android:backgroundTint="#150da1"-->
-<!--        android:paddingHorizontal="32dp"-->
-<!--        android:paddingVertical="10dp"-->
-<!--        android:text="Close"-->
-<!--        android:textAllCaps="true"-->
-<!--        android:textSize="18sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:cornerRadius="12dp" />-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

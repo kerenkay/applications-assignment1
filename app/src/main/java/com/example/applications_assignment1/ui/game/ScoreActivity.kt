@@ -100,48 +100,4 @@ class ScoreActivity : AppCompatActivity() {
         dialog.show()
     }
 
-
-//    private fun showNameDialog(
-//        onNameConfirmed: (String) -> Unit
-//    ) {
-//        val editText = EditText(this).apply {
-//            hint = "Enter your name"
-//            maxLines = 1
-//            filters = arrayOf(InputFilter.LengthFilter(12))
-//
-//            // שם אחרון כברירת מחדל
-//            val lastName = SharedPreferencesManager
-//                .getInstance()
-//                .getLastPlayerName()
-//
-//            setText(lastName)
-//            setSelection(text.length)
-//        }
-//
-//        AlertDialog.Builder(this)
-//            .setTitle("New High Score! 🎉")
-//            .setMessage("Enter your name:")
-//            .setView(editText)
-//            .setCancelable(false)
-//            .setPositiveButton("Save", null) // נטפל בלחיצה ידנית
-//            .show()
-//            .apply {
-//                getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-//                    val name = editText.text.toString().trim()
-//
-//                    if (name.isEmpty()) {
-//                        editText.error = "Name cannot be empty"
-//                        return@setOnClickListener
-//                    }
-//
-//                    // שמירת השם לפעם הבאה
-//                    SharedPreferencesManager
-//                        .getInstance()
-//                        .saveLastPlayerName(name)
-//
-//                    onNameConfirmed(name)
-//                    dismiss()
-//                }
-//            }
-//    }
 }

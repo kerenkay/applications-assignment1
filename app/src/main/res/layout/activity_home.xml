@@ -32,22 +32,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-<!--    <ImageButton-->
-<!--        android:layout_width="70dp"-->
-<!--        android:layout_height="70dp"-->
-<!--        android:src="@drawable/imp_trophy"-->
-
-<!--    <androidx.appcompat.widget.AppCompatImageButton-->
-<!--        android:layout_width="70dp"-->
-<!--        android:layout_height="70dp"-->
-<!--        android:layout_marginEnd="16dp"-->
-<!--        android:src="@drawable/imp_trophy"-->
-<!--        app:layout_constraintBottom_toBottomOf="@+id/txtGameModeTitle"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--    </androidx.appcompat.widget.AppCompatImageButton>-->
-
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnStartGame"
         android:layout_width="wrap_content"

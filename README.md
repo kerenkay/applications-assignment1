@@ -1,7 +1,11 @@
+<p align="center">
+  <img src="_assets/cover.png" alt="Monster Game Cover" width="400"/>
+</p>
+
 # 🎮 Monster University Game – Android Application
 
 ## 📖 Overview
-Monster Game is an Android arcade-style game where the player controls a character moving between lanes to avoid obstacles, collect bonuses, and achieve the highest possible score.  
+Monster University Game is an Android arcade-style game where the player controls a character moving between lanes to avoid obstacles, collect bonuses, and achieve the highest possible score.  
 At the end of each game, the score is saved and displayed in a **Top 10 leaderboard**, with each high score also linked to the player’s geographic location and shown on a map.
 
 The application is developed in **Kotlin**, with a strong focus on clean architecture, proper lifecycle handling, and integration of sensors, sound, and location services.
@@ -21,6 +25,11 @@ The application is developed in **Kotlin**, with a strong focus on clean archite
 - 🔊 Sound effects and background music
 - 📳 Vibration feedback on collisions
 - 🔄 Full Android lifecycle support
+
+---
+
+## Demonstration
+https://github.com/kerenkay/applications-assignment1/blob/master/_assets/demo.mp4
 
 ---
 

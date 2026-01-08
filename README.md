@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="_assets/logo.png" alt="Monster Game Cover" width="300"/>
+  <img src="_assets/logo.png" alt="Monster Game Cover" width="250"/>
 </p>
 
 # 🎮 Monster University Game – Android Application

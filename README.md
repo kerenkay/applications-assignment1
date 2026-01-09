@@ -29,7 +29,8 @@ The application is developed in **Kotlin**, with a strong focus on clean archite
 ---
 
 ## Demonstration
-https://raw.githubusercontent.com/kerenkay/applications-assignment1/master/_assets/demo.mp4
+
+https://github.com/user-attachments/assets/f6a3b539-eefe-44db-b94e-ad2fea35e1d8
 
 ---
 
@@ -38,7 +39,7 @@ https://raw.githubusercontent.com/kerenkay/applications-assignment1/master/_asse
 ### Prerequisites
 - **Android Studio**: Ladybug or newer  
 - **Kotlin**: Version 1.9 or higher  
-- **Minimum SDK**: 26  
+- **Minimum SDK**: 23  
 
 ### Installation
 
